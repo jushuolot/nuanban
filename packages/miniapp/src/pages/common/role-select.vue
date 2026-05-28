@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import { ROLE_HOME, type RoleKey } from '../../config/tabs';
 import { useRoleStore } from '../../store/role';
-import { request } from '../../utils/request';
 
 const roleStore = useRoleStore();
 const roleLabel: Record<RoleKey, string> = {
@@ -25,15 +24,10 @@ const roleLabel: Record<RoleKey, string> = {
 };
 
 async function select(role: RoleKey) {
-  const res = await request<{ token: string; activeRole: RoleKey }>({
-    url: '/auth/switch-role',
-    method: 'POST',
-    data: { role },
-  });
   roleStore.setAuth({
-    token: res.token,
+    token: roleStore.token,
     roles: roleStore.roles,
-    activeRole: res.activeRole,
+    activeRole: role,
     user: roleStore.user ?? undefined,
   });
   uni.reLaunch({ url: ROLE_HOME[role] });

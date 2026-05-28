@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import RoleTabBar from '../components/RoleTabBar.vue';
 import { onShow } from '@dcloudio/uni-app';
-import { guardPackageRoute } from '../../utils/nav-guard';
+import { guardPackageRoute } from '../utils/nav-guard';
 
 onShow(() => guardPackageRoute('/package-elder/home'));
 
