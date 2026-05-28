@@ -459,26 +459,29 @@ routerAdd("POST", "/api/nuanban/family/outdoor/{id}/approve", (e) => {
 });
 
 routerAdd("GET", "/api/nuanban/student/orders/pending", (e) => {
-  requireAuth(e);
-  const records = $app.findRecordsByFilter(
-    "orders",
-    'status = "pending_accept"',
-    "-created",
-    50,
-    0
-  );
-  const list = [];
-  for (let i = 0; i < records.length; i++) {
-    const o = records[i];
-    list.push({
-      id: o.id,
-      elderId: o.getString("elder"),
-      amountCents: o.getInt("amount_cents"),
-      scheduledAt: o.getString("scheduled_at"),
-      status: o.getString("status"),
-    });
+  try {
+    const records = $app.findRecordsByFilter(
+      "orders",
+      'status = "pending_accept"',
+      "",
+      50,
+      0
+    );
+    const list = [];
+    for (let i = 0; i < records.length; i++) {
+      const o = records[i];
+      list.push({
+        id: o.id,
+        elderId: o.getString("elder"),
+        amountCents: o.getInt("amount_cents"),
+        scheduledAt: o.getString("scheduled_at"),
+        status: o.getString("status"),
+      });
+    }
+    return e.json(200, { list: list });
+  } catch (err) {
+    return e.json(200, { ok: false, error: "" + err });
   }
-  return jsonOk(e, { list });
 });
 
 })();
