@@ -1,0 +1,34 @@
+{
+  "name": "暖伴勤工",
+  "appid": "__UNI__NUANBAN",
+  "description": "暖伴勤工 - 老人陪护与勤工服务",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "h5": {
+    "title": "暖伴勤工",
+    "router": {
+      "mode": "hash",
+      "base": "/"
+    },
+    "devServer": {
+      "port": 5174,
+      "https": false
+    }
+  },
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "minified": true
+    },
+    "usingComponents": true,
+    "permission": {
+      "scope.userLocation": {
+        "desc": "用于匹配附近陪护人员与服务签到"
+      }
+    },
+    "requiredPrivateInfos": ["getLocation"]
+  }
+}

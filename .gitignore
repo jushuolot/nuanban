@@ -1,0 +1,30 @@
+node_modules/
+dist/
+packages/pocketbase/pb_data/
+packages/pocketbase/pb_public/*
+!packages/pocketbase/pb_public/.gitkeep
+.unpackage/
+.hbuilderx/
+*.log
+.env
+.env.local
+.DS_Store
+coverage/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# local dev env (do not commit)
+packages/miniapp/.env
+
+# accidental nested repo copy (do not publish)
+nuanban/
+
+# temporary files
+.write-test
+
+# PocketBase backup (do not commit)
+packages/pocketbase/pb_data.bak*/
+
+# PocketBase backup (do not commit)
+packages/pocketbase/pb_data.bak*/

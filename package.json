@@ -1,0 +1,20 @@
+{
+  "name": "nuanban",
+  "version": "0.2.0",
+  "private": true,
+  "description": "暖伴勤工 - uni-app + PocketBase 精简栈",
+  "workspaces": [
+    "packages/miniapp"
+  ],
+  "scripts": {
+    "miniapp:dev": "npm run dev:h5 -w packages/miniapp",
+    "miniapp:dev:weixin": "npm run dev:mp-weixin -w packages/miniapp",
+    "miniapp:build:h5": "npm run build:h5 -w packages/miniapp",
+    "miniapp:build:weixin": "npm run build:mp-weixin -w packages/miniapp",
+    "pb:up": "docker compose up -d pocketbase",
+    "pb:logs": "docker compose logs -f pocketbase"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

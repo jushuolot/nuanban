@@ -1,0 +1,47 @@
+# 暖伴勤工 · 极简部署
+# 用法:
+#   docker compose up -d pocketbase          # 仅后端（推荐本地开发）
+#   docker compose --profile full up -d      # PocketBase + Caddy(H5)
+
+services:
+  pocketbase:
+    build:
+      context: ./packages/pocketbase
+      dockerfile: Dockerfile
+    image: nuanban-pocketbase:local
+    container_name: nuanban-pocketbase
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    environment:
+      # 本地开发请固定 .env 中的密钥；随意更换会导致旧 pb_data 无法正常使用
+      PB_ENCRYPTION_KEY: ${PB_ENCRYPTION_KEY:-nuanban-local-dev-key-32chars!!}
+    volumes:
+      - ./packages/pocketbase/pb_data:/pb_data
+      - ./packages/pocketbase/pb_public:/pb_public
+      - ./packages/pocketbase/pb_hooks:/pb_hooks
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8090/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    profiles: ["full"]
+    image: caddy:2-alpine
+    container_name: nuanban-caddy
+    restart: unless-stopped
+    depends_on:
+      - pocketbase
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./packages/miniapp/dist/build/h5:/srv/h5:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

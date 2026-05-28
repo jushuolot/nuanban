@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>暖伴勤工-完整文档手册</title>
+<style>
+  @page { size: A4; margin: 22mm 18mm; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 11pt;
+    line-height: 1.65;
+    color: #1a1a1a;
+    max-width: 100%;
+  }
+  h1 { font-size: 22pt; margin: 1.2em 0 0.6em; color: #0d47a1; page-break-before: always; }
+  h1:first-of-type, .cover h1 { page-break-before: avoid; }
+  h2 { font-size: 16pt; margin: 1em 0 0.5em; color: #1565c0; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.2em; }
+  h3 { font-size: 13pt; margin: 0.8em 0 0.4em; }
+  h4, h5 { font-size: 11pt; margin: 0.6em 0 0.3em; }
+  p { margin: 0.5em 0; }
+  pre {
+    background: #f5f7fa;
+    border: 1px solid #e8ecf0;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 9pt;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  code { font-family: Menlo, Monaco, monospace; font-size: 9.5pt; background: #f0f0f0; padding: 1px 4px; border-radius: 2px; }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 0.8em 0; font-size: 10pt; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+  th { background: #e3f2fd; }
+  ul { margin: 0.4em 0; padding-left: 1.4em; }
+  blockquote { border-left: 3px solid #90caf9; margin: 0.6em 0; padding-left: 12px; color: #555; }
+  .page-break { page-break-after: always; height: 0; }
+  .cover { text-align: center; padding: 120px 0 80px; }
+  .cover h1 { font-size: 28pt; border: none; }
+  .cover h2 { border: none; color: #666; font-weight: normal; }
+</style>
+</head>
+<body>
+<p>&lt;div style="text-align:center;padding:80px 0;"&gt;</p>
+<div class="cover"><h1>暖伴勤工</h1><h2>完整文档手册</h2><p>V1 · uni-app + PocketBase</p><p>2025年5月</p></div>
+<p>V1 · uni-app + PocketBase</p>
+<p>&lt;/div&gt;</p>
+<div class="page-break"></div>
+<h2>目录</h2>
+<p><li>文档说明  </li><br/><li>第一部分 产品规格  </li><br/><li>第二部分 技术架构  </li><br/><li>第三部分 系统架构  </li><br/><li>第四部分 部署指南  </li><br/><li>第五部分 快速上手  </li><br/><li>第六部分 数据导入与演示数据  </li><br/><li>第七部分 后台登录  </li><br/><li>第八部分 API 说明  </li><br/><li>第九部分 登录与多角色  </li><br/><li>第十部分 小程序路由  </li><br/><li>第十一部分 故障排查  </li><br/><li>附录  </li></p>
+<div class="page-break"></div>
+<h1>文档说明</h1>
+<p><strong>项目名称</strong>：暖伴勤工  <br/><strong>版本</strong>：V1 精简栈  <br/><strong>更新日期</strong>：2025年5月  <br/><strong>技术栈</strong>：uni-app（微信小程序 + H5）+ PocketBase + Docker Compose</p>
+<p>本文档由项目 <code>docs/</code> 目录下各专题文档合并生成，便于打印、评审与归档。</p>
+<h3>阅读建议</h3>
+<table><thead><tr><th>读者</th><th>建议章节</th></tr></thead><tbody><tr><td>产品 / 运营</td><td>第一部分、附录</td></tr><tr><td>技术负责人</td><td>第二～四部分、第八部分</td></tr><tr><td>运维</td><td>第四、五、七部分</td></tr><tr><td>前端 / 小程序</td><td>第五、九、十部分</td></tr><tr><td>首次搭建环境</td><td>第五、六、七、十一部分</td></tr></tbody></table><div class="page-break"></div>
+<h1>第一部分 产品规格</h1>
+<p><strong>版本</strong>：V1 精简栈 · 2025  <br/><strong>技术基线</strong>：uni-app（微信 + H5）+ PocketBase + Docker Compose（见 [TECH_STACK_SIMPLE.md]）</p>
+<hr/>
+<h4>1. 产品定位与价值</h4>
+<h5>1.1 一句话</h5>
+<p><strong>暖伴勤工</strong>连接福利院/养老院老人、家属与高校勤工学生，提供可分类、可定价的陪护与生活服务；平台统一收款、按规则结算，<strong>单应用多角色</strong>，<strong>无监督端</strong>。</p>
+<h5>1.2 解决的问题</h5>
+<table><thead><tr><th>角色</th><th>痛点</th><th>平台价值</th></tr></thead><tbody><tr><td>老人</td><td>找可靠陪护难、沟通成本高</td><td>附近学生列表、SKU 明码标价、订单可追踪</td></tr><tr><td>家属</td><td>异地无法到场、支付分散</td><td>绑定老人、代付/账单、外出审批</td></tr><tr><td>学生</td><td>勤工渠道少、信息不对称</td><td>附近需求、排班签到、收入透明</td></tr><tr><td>机构</td><td>派单与档案分散</td><td>PocketBase Admin 统一档案、派单、导出</td></tr></tbody></table><h5>1.3 产品边界（明确不做）</h5>
+<ul><li><strong>无</strong> 独立监督员 App / 督导后台</li></ul>
+<ul><li><strong>无</strong> 按学校拆分的多租户 SaaS（学校仅为统计与合作维度）</li></ul>
+<ul><li><strong>无</strong> V1 强制微信支付实装（字段与流程预留，可 stub）</li></ul>
+<hr/>
+<h4>2. 用户与角色</h4>
+<h5>2.1 角色矩阵</h5>
+<table><thead><tr><th>角色</th><th>入口</th><th>核心诉求</th><th>管理权限</th></tr></thead><tbody><tr><td>老人</td><td>小程序 / H5</td><td>找陪护、预约、看订单、确认完成、一键求助</td><td>—</td></tr><tr><td>家属</td><td>小程序 / H5</td><td>绑定老人、代付/充值、账单、外出审批</td><td>—</td></tr><tr><td>学生</td><td>小程序 / H5</td><td>附近需求、接单、排班签到、服务记录、收入</td><td>—</td></tr><tr><td>机构管理员</td><td>PocketBase Admin</td><td>本机构老人、派单、SKU、合作、导出</td><td><code>org_admin</code></td></tr><tr><td>平台管理员</td><td>PocketBase Admin</td><td>多机构、结算配置、全局导出</td><td><code>platform_admin</code></td></tr></tbody></table><h5>2.2 单 App、多角色</h5>
+<ul><li>同一微信/账号可拥有多个 <code>user_roles</code> 记录。</li></ul>
+<ul><li>登录后选择或切换 <strong>当前角色</strong>（<code>activeRole</code>）；界面与数据请求按角色隔离。</li></ul>
+<ul><li>切换入口：各模式「我的」→「切换身份」（仅 <code>roles.length &gt; 1</code> 时显示）。</li></ul>
+<h5>2.3 注册与审核</h5>
+<table><thead><tr><th>角色</th><th>注册要点</th><th>审核</th></tr></thead><tbody><tr><td>老人</td><td>机构预建档码 / 手机号匹配</td><td>通常自动或机构确认</td></tr><tr><td>家属</td><td>绑定码 / 扫码绑定老人</td><td>绑定关系生效即可</td></tr><tr><td>学生</td><td>选学校、学号、学院等</td><td><code>user_roles.status</code>: pending → active</td></tr></tbody></table>---
+<h4>3. 服务与商品（SKU）</h4>
+<h5>3.1 类目与 SKU</h5>
+<ul><li><strong>服务大类</strong> <code>service_categories</code>：如陪护、康复协助、陪伴聊天、外出陪同。</li></ul>
+<ul><li><strong>可售项</strong> <code>service_items</code>（SKU）：名称、单价、默认时长、单位、是否需外出审批、上下架状态。</li></ul>
+<h5>3.2 定价与选购</h5>
+<ul><li>下单时选择 SKU，价格以 SKU 为准。</li></ul>
+<ul><li>老人可自选；家属可为已绑定老人代选；机构可在后台维护 SKU 与机构专属价（V1 可用统一价，差价字段预留）。</li></ul>
+<h5>3.3 服务包（可选 V1 简化）</h5>
+<ul><li>家属端「服务包」可为多个 SKU 组合或预付费次数；V1 可用单 SKU 订单代替，结构预留。</li></ul>
+<hr/>
+<h4>4. 订单与状态机</h4>
+<h5>4.1 订单来源</h5>
+<table><thead><tr><th>来源</th><th>触发方</th><th>说明</th></tr></thead><tbody><tr><td>老人自下单</td><td>老人</td><td>选 SKU、选/匹配学生后生成</td></tr><tr><td>家属代下单</td><td>家属</td><td>为已绑定老人下单，通常需支付</td></tr><tr><td>机构派单</td><td>管理员</td><td>Admin 指定老人与学生</td></tr><tr><td>学生申请/抢单</td><td>学生</td><td>待机构或规则确认后进入待服务</td></tr></tbody></table><h5>4.2 主状态流</h5>
+<pre><code class="language-text">草稿 → 待支付 → 待接单 → [外出待批] → 待服务 → 服务中 → 待确认 → 已完成</code></pre>
+<p><strong>分支状态</strong>：<code>已取消</code>、<code>退款中</code></p>
+<table><thead><tr><th>状态</th><th>说明</th><th>典型操作方</th></tr></thead><tbody><tr><td>草稿</td><td>未提交</td><td>老人/家属</td></tr><tr><td>待支付</td><td>需家属或预付政策</td><td>家属支付</td></tr><tr><td>待接单</td><td>等待学生接单或机构派单</td><td>学生/管理员</td></tr><tr><td>外出待批</td><td>SKU 需外出时</td><td>家属审批</td></tr><tr><td>待服务</td><td>已接单未开始</td><td>学生签到开始</td></tr><tr><td>服务中</td><td>进行中</td><td>学生写服务记录</td></tr><tr><td>待确认</td><td>待老人/家属确认</td><td>老人确认完成</td></tr><tr><td>已完成</td><td>可进入结算</td><td>系统/管理员</td></tr></tbody></table><h5>4.3 支付与结算</h5>
+<p><strong>支付</strong></p>
+<ul><li>待支付订单：家属微信支付（V1 可 stub，保留 <code>payment_status</code>、<code>paid_at</code>）。</li></ul>
+<ul><li>平台收款：资金进入平台商户号（上线配置微信商户/服务商）。</li></ul>
+<ul><li>老人下单若绑定家属且政策要求预付 → 进入「待支付」；机构月结可在后台标记。</li></ul>
+<p><strong>结算</strong></p>
+<ul><li>订单完成后生成 <code>settlements</code>：学生劳务费、机构分成等。</li></ul>
+<ul><li>V1：后台列表 + 导出对账；批量打款流程可二期。</li></ul>
+<hr/>
+<h4>5. 匹配与位置</h4>
+<h5>5.1 老人找陪护</h5>
+<ul><li>输入/使用老人或机构位置（经纬度）。</li></ul>
+<ul><li>按服务类目筛选可接单 <strong>学生</strong>（<code>user_roles.role=student</code> 且 active）。</li></ul>
+<ul><li>列表按距离排序，展示脱敏信息（昵称、学校、评分字段预留）。</li></ul>
+<h5>5.2 学生找需求</h5>
+<ul><li>附近 <strong>待接单</strong> 订单或可申请服务的老人池。</li></ul>
+<ul><li>支持拒单/接单；接单后进入排班。</li></ul>
+<h5>5.3 机构派单</h5>
+<ul><li>管理员在 Admin 选择老人、学生、时段，写入 <code>orders</code> + <code>schedules</code>。</li></ul>
+<h5>5.4 位置技术</h5>
+<ul><li>V1：<strong>Haversine</strong> 球面距离，默认半径约 5km（可配置）。</li></ul>
+<ul><li>不需 PostGIS；二期可加地图选点、轨迹。</li></ul>
+<hr/>
+<h4>6. 排班、签到与外出</h4>
+<h5>6.1 排班 <code>schedules</code></h5>
+<p>关联：订单、学生、老人、计划开始/结束时间、状态（待服务/进行中/已完成）。</p>
+<h5>6.2 签到</h5>
+<ul><li>学生到点 <strong>GPS 签到</strong>（V1）；二期可加扫码、围栏。</li></ul>
+<ul><li>签到后订单可进入「服务中」。</li></ul>
+<h5>6.3 外出服务 <code>outdoor_approvals</code></h5>
+<ul><li>SKU 标记「需外出」时，订单进入「外出待批」。</li></ul>
+<ul><li>家属（可选机构）审批通过后，方可开始服务。</li></ul>
+<h5>6.4 一键求助（老人）</h5>
+<ul><li>老人端 SOS：记录时间、位置，通知机构管理员（V1 可写记录 + Admin 列表；推送二期）。</li></ul>
+<hr/>
+<h4>7. 学校与合作（非租户）</h4>
+<h5>7.1 原则</h5>
+<ul><li>全平台 <strong>一套数据</strong>，不按学校拆库、拆 Admin。</li></ul>
+<ul><li><code>school_dict</code> 仅为字典与统计维度。</li></ul>
+<h5>7.2 实体</h5>
+<table><thead><tr><th>实体</th><th>用途</th></tr></thead><tbody><tr><td><code>school_cooperation</code></td><td>某校与某养老院/机构合作范围</td></tr><tr><td><code>school_designated_elder</code></td><td>某校项目指定的服务对象老人</td></tr><tr><td>学生 <code>school_id</code></td><td>注册时选择，用于过滤合作范围内订单/老人</td></tr></tbody></table>---
+<h4>8. 管理端（PocketBase Admin）</h4>
+<h5>8.1 功能清单</h5>
+<ul><li>老人档案 CRUD、关联机构/社区</li></ul>
+<ul><li>服务类目与 SKU 维护</li></ul>
+<ul><li>订单查询、改状态、<strong>派单</strong></li></ul>
+<ul><li>院校合作与指定老人</li></ul>
+<ul><li>用户角色审核（学生 pending → active）</li></ul>
+<ul><li><strong>数据导出</strong>：<code>export_tasks</code>（订单、结算、工时等）；V1 可同步导出小表</li></ul>
+<h5>8.2 明确不提供</h5>
+<ul><li>监督员工作台</li></ul>
+<ul><li>按校独立后台域名/数据隔离</li></ul>
+<hr/>
+<h4>9. 客户端（uni-app）</h4>
+<h5>9.1 交付形态</h5>
+<table><thead><tr><th>形态</th><th>说明</th></tr></thead><tbody><tr><td>微信小程序</td><td>主投放渠道</td></tr><tr><td>H5</td><td>浏览器、分享链接、非微信环境；与小程序共用业务代码</td></tr></tbody></table><h5>9.2 分包结构</h5>
+<table><thead><tr><th>分包</th><th>主要页面</th></tr></thead><tbody><tr><td><code>pages/common</code></td><td>launch、login、role-select、register</td></tr><tr><td><code>package-elder</code></td><td>首页、找陪护、下单、订单列表/详情、设置</td></tr><tr><td><code>package-family</code></td><td>首页、绑定老人、待支付、账单、外出审批</td></tr><tr><td><code>package-student</code></td><td>首页、附近老人、接单、排班、签到、收入、资料</td></tr></tbody></table>深链统一经 <code>pages/common/launch?role=&amp;target=&amp;id=</code>，详见 [MINIAPP_ROUTING.md]。
+<h5>9.3 体验要求（老人端）</h5>
+<ul><li>大字号模式入口（设置页）</li></ul>
+<ul><li>关键操作步骤 ≤ 3 步完成下单（V1 目标）</li></ul>
+<hr/>
+<h4>10. 数据实体摘要</h4>
+<table><thead><tr><th>实体</th><th>说明</th></tr></thead><tbody><tr><td><code>organizations</code></td><td>养老院/福利院</td></tr><tr><td><code>communities</code></td><td>机构下服务点</td></tr><tr><td><code>elders</code></td><td>老人档案</td></tr><tr><td><code>users</code> / <code>user_roles</code></td><td>账号与角色</td></tr><tr><td><code>service_categories</code> / <code>service_items</code></td><td>类目与 SKU</td></tr><tr><td><code>orders</code></td><td>订单</td></tr><tr><td><code>schedules</code></td><td>排班服务单</td></tr><tr><td><code>outdoor_approvals</code></td><td>外出审批</td></tr><tr><td><code>settlements</code></td><td>结算</td></tr><tr><td><code>export_tasks</code></td><td>导出任务</td></tr></tbody></table>字段细节见 <code>packages/pocketbase/COLLECTIONS.md</code>。
+<hr/>
+<h4>11. V1 交付范围与路线图</h4>
+<h5>11.1 V1 必须交付</h5>
+<table><thead><tr><th>模块</th><th>内容</th></tr></thead><tbody><tr><td>客户端</td><td>三角色分包页面骨架、登录/切角色、导航守卫</td></tr><tr><td>后端</td><td>PocketBase 集合导入、基础权限、Admin 可操作</td></tr><tr><td>业务</td><td>订单 CRUD 主路径、派单、简单附近列表</td></tr><tr><td>部署</td><td>Docker Compose 一键起 PB；H5 构建说明</td></tr><tr><td>文档</td><td>产品、栈、部署、API、登录、路由</td></tr></tbody></table><h5>11.2 二期规划</h5>
+<ul><li>微信 <code>code2session</code>、支付 V3、退款</li></ul>
+<ul><li>PocketBase Hooks：状态机、角色行级权限</li></ul>
+<ul><li>消息推送（模板消息/订阅消息）</li></ul>
+<ul><li>地图选点、OSS 大文件导出、自动结算打款</li></ul>
+<hr/>
+<h4>12. 非功能需求</h4>
+<table><thead><tr><th>维度</th><th>要求</th></tr></thead><tbody><tr><td>成本</td><td>单 VPS 1核1G 可跑；月费约 ¥30～80（见技术栈文档）</td></tr><tr><td>部署</td><td>Docker Compose ≤ 3 步上线 PB</td></tr><tr><td>开源/自托管</td><td>PocketBase MIT；数据在自有 <code>pb_data</code></td></tr><tr><td>安全</td><td>HTTPS、强 Admin 密码、加密密钥、敏感导出仅平台/机构管理员</td></tr><tr><td>合规</td><td>个人信息最小化展示；微信支付与 ICP 按上线地区办理</td></tr></tbody></table>---
+<h4>13. 名词表</h4>
+<table><thead><tr><th>名词</th><th>含义</th></tr></thead><tbody><tr><td>机构</td><td>养老院/福利院 <code>organizations</code></td></tr><tr><td>社区点</td><td>机构下服务点 <code>communities</code></td></tr><tr><td>SKU</td><td><code>service_items</code> 可售服务项</td></tr><tr><td>平台结算</td><td>订单完成后资金拆分与 <code>settlements</code> 记录</td></tr><tr><td>activeRole</td><td>当前使用的业务角色（老人/家属/学生）</td></tr></tbody></table>---
+<p>*实现与部署： [TECH_STACK_SIMPLE.md] · [DEPLOY.md] · [packages/pocketbase/]*</p>
+<div class="page-break"></div>
+<h1>第二部分 技术架构</h1>
+<p><strong>目标</strong>：最低运维成本、最少组件、支持微信小程序 + H5，适合公益/试点项目快速上线。</p>
+<p>完整部署步骤见 <strong>[DEPLOY.md]</strong>。</p>
+<hr/>
+<h4>总览</h4>
+<table><thead><tr><th>层级</th><th>选型</th><th>说明</th></tr></thead><tbody><tr><td>客户端</td><td><strong>uni-app（Vue 3）</strong></td><td>一套代码 → <strong>微信小程序 + H5</strong></td></tr><tr><td>后端</td><td><strong>PocketBase</strong></td><td>单 Go 进程：SQLite、Auth、REST、Realtime、文件、<strong>内置 Admin</strong></td></tr><tr><td>部署</td><td><strong>Docker Compose</strong></td><td><code>pocketbase</code> 必选；<code>caddy</code> 可选（反代 + H5 静态）</td></tr><tr><td>管理端</td><td><strong>PocketBase Admin</strong> (<code>/_/</code>)</td><td>不维护独立 Vue Admin</td></tr></tbody></table><strong>V1 不采用</strong>：NestJS + PostgreSQL + Element Plus 独立后台（运维与月租更高）。
+<hr/>
+<h4>1. 客户端：uni-app Vue 3</h4>
+<p><strong>选型理由</strong></p>
+<ul><li>官方 <code>mp-weixin</code> + <code>h5</code> 双端，业务代码复用率高。</li></ul>
+<ul><li>仓库 <code>packages/miniapp</code> 已按三角色分包，仅需配置 API 与 H5 构建。</li></ul>
+<p><strong>常用命令</strong></p>
+<pre><code class="language-bash">cd packages/miniapp
+cp .env.example .env
+npm install
+npm run dev:mp-weixin    # 微信开发者工具
+npm run dev:h5           # 浏览器 H5
+npm run build:h5         # 产出 dist/build/h5 → Caddy 或静态托管
+npm run build:mp-weixin</code></pre>
+<p><strong>环境变量</strong></p>
+<pre><code class="language-env">##### PocketBase REST 根（不要 /v1）
+VITE_API_BASE_URL=http://localhost:8090/api</code></pre>
+<p><strong>鉴权约定</strong></p>
+<ul><li><code>Authorization: Bearer &lt;pocketbase_token&gt;</code></li></ul>
+<ul><li>多角色：<code>user_roles</code> 集合 + 请求头 <code>X-Active-Role: elder|family|student</code></li></ul>
+<ul><li>复杂校验 → 二期 PocketBase Hooks</li></ul>
+<hr/>
+<h4>2. 后端：PocketBase</h4>
+<table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>数据库</td><td>内嵌 <strong>SQLite</strong>（<code>pb_data/</code>，备份=目录拷贝）</td></tr><tr><td>API</td><td><code>/api/collections/&lt;name&gt;/records</code></td></tr><tr><td>认证</td><td>内置 <code>users</code> 集合</td></tr><tr><td>管理 UI</td><td><code>http://host:8090/_/</code></td></tr><tr><td>扩展</td><td><code>pb_hooks/</code>（Go/JS）支付、状态机、微信登录</td></tr></tbody></table><strong>与 Supabase 自托管对比（简要）</strong>
+<table><thead><tr><th>维度</th><th>PocketBase</th><th>Supabase 自托管</th></tr></thead><tbody><tr><td>进程</td><td>1 个二进制</td><td>多容器（PG、Kong、Auth…）</td></tr><tr><td>内存</td><td>512MB～1GB 可跑</td><td>通常 2GB+</td></tr><tr><td>运维</td><td>拷 <code>pb_data</code> 即备份</td><td>PG 备份与组件升级</td></tr><tr><td>适合本项目</td><td>关系表 + CRUD + Admin</td><td>强 RLS、大规模分析</td></tr></tbody></table>暖伴 V1 以 CRUD + 后台派单为主 → <strong>选 PocketBase</strong>。
+<hr/>
+<h4>3. 部署拓扑</h4>
+<pre><code class="language-text">  微信小程序 ──┐
+  H5 浏览器 ──┼──► Caddy :443 ──► /api/* ──► PocketBase :8090
+              │              └──► /      ──► H5 静态 (dist/build/h5)
+              └──► 开发期可直连 :8090
+<p>管理员浏览器 ──► PocketBase Admin /_/</code></pre></p>
+<p><strong>最小部署</strong>（仅 API + Admin）：</p>
+<pre><code class="language-bash">docker compose up -d pocketbase</code></pre>
+<p><strong>完整部署</strong>（API + H5 同域）：</p>
+<pre><code class="language-bash">npm run build:h5   # 在 packages/miniapp
+docker compose --profile full up -d</code></pre>
+<hr/>
+<h4>4. 成本粗算（人民币 / 月）</h4>
+<table><thead><tr><th>项目</th><th>方案</th><th>约月费</th></tr></thead><tbody><tr><td>服务器</td><td>国内轻量 1核1G～2G</td><td>¥24～60</td></tr><tr><td>域名</td><td>已备案</td><td>¥0～5（摊销）</td></tr><tr><td>SSL</td><td>Caddy + Let's Encrypt</td><td>¥0</td></tr><tr><td>存储</td><td>V1 本地 <code>pb_data</code></td><td>¥0～10</td></tr><tr><td>H5 CDN（可选）</td><td>Cloudflare Pages 免费档</td><td>¥0</td></tr><tr><td><strong>合计</strong></td><td>自托管 V1</td><td><strong>约 ¥30～80</strong></td></tr></tbody></table>对比 NestJS + PG + 独立 Admin（常需 2C4G）：约 <strong>¥150+/月</strong> 且维护成本高。
+<hr/>
+<h4>5. 仓库对应关系</h4>
+<table><thead><tr><th>路径</th><th>V1 状态</th></tr></thead><tbody><tr><td><code>packages/miniapp</code></td><td><strong>使用</strong> — 主客户端</td></tr><tr><td><code>packages/pocketbase</code></td><td><strong>使用</strong> — schema、pb_data、文档</td></tr><tr><td><code>docker-compose.yml</code> + <code>Caddyfile</code></td><td><strong>使用</strong> — 部署</td></tr><tr><td><code>packages/api</code></td><td>遗留 — NestJS，不部署</td></tr><tr><td><code>packages/admin-web</code></td><td>遗留 — 由 PB Admin 替代</td></tr><tr><td><code>database/*.sql</code></td><td>参考 — 字段对照，不执行</td></tr></tbody></table>业务逻辑优先级：
+<p><li>V1：集合结构 + 客户端直连 REST + Admin 人工派单  </li><br/><li>二期：Hooks（支付回调、订单状态机、行级权限）</li></p>
+<hr/>
+<h4>6. 安全清单（生产）</h4>
+<ul><li>更换 <code>PB_ENCRYPTION_KEY</code>（<code>openssl rand -hex 16</code>）</li></ul>
+<ul><li>Admin 强密码；HTTPS 仅暴露 443（8090 不直连公网）</li></ul>
+<ul><li>定期备份 <code>packages/pocketbase/pb_data</code></li></ul>
+<ul><li>集合权限按角色收紧；敏感导出仅管理员</li></ul>
+<ul><li>微信商户、小程序备案按属地要求办理</li></ul>
+<hr/>
+<h4>7. 三步上线</h4>
+<p><li><code>docker compose up -d pocketbase</code>  </li><br/><li>打开 <code>http://&lt;host&gt;:8090/_/</code> → 创建管理员 → 导入 <code>pb_schema.json</code>  </li><br/><li><code>packages/miniapp</code> 配置 <code>VITE_API_BASE_URL</code> → 构建 H5 / 上传微信小程序  </li></p>
+<p>细节：[DEPLOY.md] · 产品范围：[PRODUCT.md]</p>
+<div class="page-break"></div>
+<h1>第三部分 系统架构</h1>
+<p>&gt; 产品能力见 [PRODUCT.md]；选型与成本见 [TECH_STACK_SIMPLE.md]；部署见 [DEPLOY.md]。</p>
+<h4>逻辑架构</h4>
+<pre><code class="language-mermaid">flowchart LR
+  subgraph clients [客户端]
+    MP[微信小程序]
+    H5[H5 浏览器]
+  end
+  subgraph edge [可选边缘]
+    Caddy[Caddy 443]
+  end
+  subgraph backend [后端]
+    PB[PocketBase]
+    SQLite[(SQLite pb_data)]
+  end
+  subgraph admin [管理]
+    PBA[PocketBase Admin /_/]
+  end
+  MP --&gt; Caddy
+  H5 --&gt; Caddy
+  Caddy --&gt;|/api/*| PB
+  Caddy --&gt;|/| 静态 H5|
+  MP -.-&gt;|开发直连| PB
+  PBA --&gt; PB
+  PB --&gt; SQLite</code></pre>
+<h4>仓库模块</h4>
+<table><thead><tr><th>路径</th><th>状态</th><th>职责</th></tr></thead><tbody><tr><td><code>packages/miniapp</code></td><td><strong>主客户端</strong></td><td>uni-app：老人 / 家属 / 学生三分包 + 公共登录</td></tr><tr><td><code>packages/pocketbase</code></td><td><strong>主后端</strong></td><td>Schema、数据目录、Hooks（二期）</td></tr><tr><td><code>docker-compose.yml</code> + <code>Caddyfile</code></td><td><strong>部署</strong></td><td>PocketBase 容器；可选 Caddy 反代</td></tr><tr><td><code>packages/api</code></td><td>遗留</td><td>NestJS，不再用于 V1 部署</td></tr><tr><td><code>packages/admin-web</code></td><td>遗留</td><td>Vue Admin，由 PB Admin 替代</td></tr><tr><td><code>database/</code></td><td>遗留参考</td><td>PostgreSQL DDL，字段对照用</td></tr></tbody></table><h4>身份与多角色</h4>
+<ul><li>账号：<code>users</code>（PocketBase 内置认证）</li></ul>
+<ul><li>角色：<code>user_roles</code> 集合，一人可多角色</li></ul>
+<ul><li>客户端：<code>activeRole</code> + 请求头 <code>X-Active-Role</code>（详见 [LOGIN_STATE.md]）</li></ul>
+<ul><li>管理端：<code>org_admin</code> / <code>platform_admin</code> 使用 PocketBase Admin，无独立监督端</li></ul>
+<h4>核心业务数据</h4>
+<p>集合关系见 <code>packages/pocketbase/COLLECTIONS.md</code>。主干：</p>
+<p><code>organizations</code> → <code>elders</code> → <code>orders</code> → <code>schedules</code>；<code>service_items</code> 定价；<code>school_*</code> 院校合作（<strong>非租户</strong>）。</p>
+<h4>客户端路由</h4>
+<p>单 AppID、分包按角色隔离；深链经 <code>pages/common/launch</code>。详见 [MINIAPP_ROUTING.md]。</p>
+<h4>V1 边界</h4>
+<table><thead><tr><th>在 V1</th><th>二期</th></tr></thead><tbody><tr><td>集合 CRUD + Admin 派单/导出骨架</td><td>PocketBase Hooks 状态机、支付回调</td></tr><tr><td>Haversine 附近列表（客户端或简单过滤）</td><td>PostGIS / 地图选点</td></tr><tr><td>微信登录与支付结构预留</td><td>code2session、微信支付 V3 实装</td></tr></tbody></table><div class="page-break"></div>
+<h1>第四部分 部署指南</h1>
+<p>本文档描述 <strong>V1 推荐栈</strong>：PocketBase +（可选）Caddy 反代 H5。约 15 分钟可在单机完成自托管。</p>
+<h4>前置条件</h4>
+<table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody><tr><td>服务器</td><td>Linux（推荐 Ubuntu 22.04+），1 核 1G 起</td></tr><tr><td>软件</td><td>Docker 24+、Docker Compose v2</td></tr><tr><td>域名（生产）</td><td>已备案，解析到服务器（小程序需 HTTPS API）</td></tr><tr><td>本地开发</td><td>macOS / Windows + Docker Desktop 亦可</td></tr></tbody></table><h4>目录与数据持久化</h4>
+<pre><code class="language-text">nuanban/
+├── docker-compose.yml
+├── Caddyfile                    # full profile 时使用
+└── packages/pocketbase/
+    ├── pb_data/                 # SQLite + 上传文件（勿删）
+    ├── pb_public/               # 可选静态资源
+    └── pb_schema.json           # 集合导入</code></pre>
+<p><code>pb_data</code> 已在 <code>.gitignore</code>，<strong>备份 = 定期打包 <code>pb_data</code> 目录</strong>。</p>
+<hr/>
+<h4>一、仅启动 PocketBase（开发 / 最小生产）</h4>
+<h5>1. 克隆与进入目录</h5>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt; nuanban
+cd nuanban</code></pre>
+<h5>2. 配置加密密钥（生产必做）</h5>
+<pre><code class="language-bash">export PB_ENCRYPTION_KEY="$(openssl rand -hex 16)"
+<h5>写入 .env 供 compose 读取（勿提交 git）</h5>
+echo "PB_ENCRYPTION_KEY=${PB_ENCRYPTION_KEY}" &gt; .env</code></pre>
+<p><code>PB_ENCRYPTION_KEY</code> 至少 32 字符；生产禁止使用 <code>docker-compose.yml</code> 中的默认值。</p>
+<h5>3. 启动</h5>
+<pre><code class="language-bash">docker compose up -d pocketbase
+docker compose ps
+docker compose logs -f pocketbase</code></pre>
+<h5>4. 健康检查</h5>
+<pre><code class="language-bash">curl -s http://localhost:8090/api/health</code></pre>
+<p>浏览器打开管理后台：<strong>http://localhost:8090/_/</strong></p>
+<p>首次访问创建超级管理员账号。</p>
+<h5>5. 导入数据模型</h5>
+<p><li>登录 Admin → <strong>Settings</strong> → <strong>Import collections</strong></li><br/><li>选择 <code>packages/pocketbase/pb_schema.json</code></li><br/><li>或对照 <code>packages/pocketbase/COLLECTIONS.md</code> 手工建表</li></p>
+<h5>6. 客户端指向 API</h5>
+<p><code>packages/miniapp/.env</code>：</p>
+<pre><code class="language-env">VITE_API_BASE_URL=http://localhost:8090/api</code></pre>
+<p>微信小程序正式环境须使用 <strong>HTTPS 域名</strong>（见下文生产）。</p>
+<hr/>
+<h4>二、PocketBase + Caddy（H5 静态 + API 反代）</h4>
+<p>适用于：同一域名提供 H5 页面，并将 <code>/api/*</code> 转发到 PocketBase。</p>
+<h5>1. 构建 H5</h5>
+<pre><code class="language-bash">cd packages/miniapp
+cp .env.example .env
+<h5>生产将 VITE_API_BASE_URL 设为 https://你的域名/api</h5>
+npm install
+npm run build:h5</code></pre>
+<p>产物目录：<code>packages/miniapp/dist/build/h5</code>（需与 <code>docker-compose.yml</code> 中 Caddy 挂载路径一致）。</p>
+<h5>2. 修改 Caddyfile（生产）</h5>
+<p>将 <code>Caddyfile</code> 首行 <code>:80</code> 改为你的域名，例如：</p>
+<pre><code class="language-caddyfile">api.example.com {
+    handle /api/* {
+        reverse_proxy pocketbase:8090
+    }
+    handle {
+        root * /srv/h5
+        try_files {path} /index.html
+        file_server
+    }
+}</code></pre>
+<p>Caddy 会自动申请 Let’s Encrypt 证书（需 80/443 可从公网访问）。</p>
+<h5>3. 启动 full profile</h5>
+<pre><code class="language-bash">docker compose --profile full up -d</code></pre>
+<p>服务：</p>
+<table><thead><tr><th>容器</th><th>端口</th><th>说明</th></tr></thead><tbody><tr><td><code>nuanban-pocketbase</code></td><td>8090</td><td>API + Admin <code>/_/</code></td></tr><tr><td><code>nuanban-caddy</code></td><td>80, 443</td><td>H5 + 反代</td></tr></tbody></table>仅本机调试 Caddy 时可访问 <code>http://localhost</code>（H5）与 <code>http://localhost/api</code>（API）。
+<hr/>
+<h4>三、生产检查清单</h4>
+<ul><li>[ ] 已更换 <code>PB_ENCRYPTION_KEY</code> 并保存在密钥管理（非仓库）</li></ul>
+<ul><li>[ ] Admin 使用强密码；禁用或删除测试账号</li></ul>
+<ul><li>[ ] 仅通过 HTTPS 暴露（Caddy 或云负载均衡终止 TLS）</li></ul>
+<ul><li>[ ] 防火墙：公网仅开放 80/443；<strong>不要</strong>将 8090 直接暴露公网（经反代访问）</li></ul>
+<ul><li>[ ] 定期备份 <code>packages/pocketbase/pb_data</code></li></ul>
+<ul><li>[ ] 微信小程序后台配置 request 合法域名 = API 域名</li></ul>
+<ul><li>[ ] <code>VITE_API_BASE_URL</code> 与线上域名一致后重新 <code>build:h5</code> / 上传小程序</li></ul>
+<hr/>
+<h4>四、常用运维命令</h4>
+<pre><code class="language-bash">##### 查看日志
+docker compose logs -f pocketbase
+<h5>重启</h5>
+docker compose restart pocketbase
+<h5>停止</h5>
+docker compose down
+<h5>升级 PocketBase 镜像</h5>
+docker compose pull pocketbase
+docker compose up -d pocketbase</code></pre>
+<hr/>
+<h4>五、故障排查</h4>
+<table><thead><tr><th>现象</th><th>处理</th></tr></thead><tbody><tr><td><code>8090</code> 无法访问</td><td><code>docker compose ps</code> 确认容器 Up；检查端口占用</td></tr><tr><td>healthcheck 失败</td><td>容器内 <code>wget</code> 探测；查看 <code>logs</code> 是否迁移错误</td></tr><tr><td>H5 白屏</td><td>确认已 <code>build:h5</code> 且 <code>dist/build/h5</code> 已挂载到 Caddy</td></tr><tr><td>API 404</td><td>客户端 URL 应为 <code>.../api</code> 而非 <code>/api/v1</code></td></tr><tr><td>小程序域名校验失败</td><td>微信后台添加 HTTPS 域名；开发工具可勾选不校验</td></tr></tbody></table>更多开发环境问题见 [TROUBLESHOOTING.md]。
+<hr/>
+<h4>六、与旧栈的关系</h4>
+<p>仓库中 <code>packages/api</code>（NestJS）、<code>packages/admin-web</code>、<code>database/*.sql</code> 为 <strong>历史参考</strong>，V1 部署不再依赖 PostgreSQL。新业务以 PocketBase 集合为准，见 [TECH_STACK_SIMPLE.md]。</p>
+<div class="page-break"></div>
+<h1>第五部分 快速上手（小白）</h1>
+<p>连接福利院老人、家属与高校勤工学生的一站式服务平台（<strong>单微信小程序 + H5</strong> + <strong>PocketBase 管理后台</strong>）。</p>
+<h2>技术栈（V1）</h2>
+<table><thead><tr><th>组件</th><th>说明</th></tr></thead><tbody><tr><td><code>packages/miniapp</code></td><td>uni-app Vue3：老人 / 家属 / 学生</td></tr><tr><td><code>packages/pocketbase</code></td><td>后端 + Admin UI（SQLite）</td></tr><tr><td><code>docker-compose.yml</code></td><td>一键部署 PocketBase（可选 Caddy + H5）</td></tr></tbody></table>&gt; 仓库中的 <code>packages/api</code>、<code>packages/admin-web</code>、<code>database/</code> 为历史参考，新环境请按极简栈部署。
+<h2>快速开始</h2>
+<h3>1. 启动后端</h3>
+<pre><code class="language-bash"># 生产请先设置 PB_ENCRYPTION_KEY，见 docs/DEPLOY.md
+docker compose up -d pocketbase</code></pre>
+<ul><li>API：<code>http://localhost:8090/api</code></li></ul>
+<ul><li>Admin：<code>http://localhost:8090/_/</code></li></ul>
+<ul><li>导入集合：<code>packages/pocketbase/pb_schema.json</code>（须勾选 <strong>Merge</strong>）</li></ul>
+<ul><li>一键演示数据：<code>./scripts/seed-demo.sh</code></li></ul>
+<h3>2. 客户端</h3>
+<pre><code class="language-bash">cd packages/miniapp
+cp .env.example .env   # VITE_API_BASE_URL=http://localhost:8090/api
+npm install
+npm run dev:mp-weixin  # 或 dev:h5</code></pre>
+<p>推荐 HBuilderX 打开 <code>packages/miniapp</code>（见该目录 README）。</p>
+<h3>3. 生产（H5 + HTTPS）</h3>
+<pre><code class="language-bash">cd packages/miniapp &amp;&amp; npm run build:h5
+docker compose --profile full up -d</code></pre>
+<p>详见 <strong>docs/DEPLOY.md</strong>。</p>
+<h3>后台登不上？</h3>
+<p>见 <strong>docs/PB_ADMIN_LOGIN.md</strong>，或执行：</p>
+<pre><code class="language-bash">./scripts/pb-reset-admin.sh</code></pre>
+<h2>核心能力</h2>
+<ul><li>服务按 SKU 分类定价</li></ul>
+<ul><li>家属支付、平台结算（V1 字段预留）</li></ul>
+<ul><li>管理员派单 + 老人/学生双向就近匹配</li></ul>
+<ul><li>院校合作与指定老人（<strong>非按校租户</strong>）</li></ul>
+<ul><li>管理端导出（无监督端）</li></ul>
+<h2>文档</h2>
+<table><thead><tr><th>文档</th><th>说明</th></tr></thead><tbody><tr><td>docs/README.md</td><td><strong>文档索引</strong></td></tr><tr><td>docs/PRODUCT.md</td><td>完整产品规格（中文）</td></tr><tr><td>docs/TECH_STACK_SIMPLE.md</td><td>极简栈与成本</td></tr><tr><td>docs/DEPLOY.md</td><td>Docker Compose 部署</td></tr><tr><td>docs/ARCHITECTURE.md</td><td>系统架构</td></tr><tr><td>docs/API.md</td><td>PocketBase API</td></tr><tr><td>docs/LOGIN_STATE.md</td><td>登录与多角色</td></tr><tr><td>docs/MINIAPP_ROUTING.md</td><td>小程序路由</td></tr><tr><td>docs/TROUBLESHOOTING.md</td><td>故障排查</td></tr></tbody></table><h2>License</h2>
+<p>Private / 项目内部使用</p>
+<div class="page-break"></div>
+<h1>第六部分 数据导入与演示数据</h1>
+<h5>PocketBase 导入 pb_schema 说明</h5>
+<h4>报错原因</h4>
+<p><code>user_roles ... The relation collection doesn't exist</code> 通常因为：</p>
+<p><li><strong>未勾选</strong> <code>Merge with the existing collections</code>（合并导入）  </li><br/>   → 导入包里没有内置 <code>users</code> 表，但 schema 里有关联到 <code>users</code> 的字段。</p>
+<p><li>或一次性导入顺序/依赖有问题。</li></p>
+<hr/>
+<h4>推荐做法（分两步，最稳）</h4>
+<h5>第 1 步：导入基础表（无 users 关联）</h5>
+<p><li>打开 <strong>Settings → Import collections</strong></li><br/><li><strong>勾选</strong> <code>Merge with the existing collections</code></li><br/><li>粘贴或选择文件：  </li><br/>   <code>packages/pocketbase/pb_schema_phase1.json</code><br/><li>确认导入</li></p>
+<p>应新增：<code>school_dict</code>、<code>organizations</code>、<code>elders</code>、<code>service_items</code> 等。</p>
+<h5>第 2 步：导入业务表（含 users 关联）</h5>
+<p><li>仍在 Import collections</li><br/><li><strong>保持勾选</strong> Merge</li><br/><li>粘贴或选择：  </li><br/>   <code>packages/pocketbase/pb_schema_phase2.json</code><br/><li>确认导入</li></p>
+<p>应新增：<code>user_roles</code>、<code>orders</code>、<code>schedules</code> 等。</p>
+<hr/>
+<h4>备选：整包一次导入</h4>
+<p>若你更熟悉，也可只导入完整 <code>pb_schema.json</code>，但<strong>必须勾选 Merge</strong>。</p>
+<hr/>
+<h4>导入成功后</h4>
+<p>按 <code>packages/pocketbase/SEED.md</code> 录入演示数据，然后跑小程序。</p>
+<hr/>
+<h2>一键写入演示数据</h2>
+<h5>演示数据（PocketBase）</h5>
+<h4>一键导入（推荐）</h4>
+<p>确保 PocketBase 已启动后，在项目根目录执行：</p>
+<pre><code class="language-bash">chmod +x scripts/seed-demo.sh
+./scripts/seed-demo.sh</code></pre>
+<p>或：</p>
+<pre><code class="language-bash">curl -X POST "http://localhost:8090/api/nuanban/seed-demo?key=nuanban_dev_seed"</code></pre>
+<p>可重复执行，不会重复创建同名学校/老人/用户。</p>
+<p><strong>统一测试密码</strong>：<code>nuanban_dev_2025</code></p>
+<table><thead><tr><th>角色</th><th>示例账号</th></tr></thead><tbody><tr><td>学生</td><td>student1@test.nuanban.dev</td></tr><tr><td>家属</td><td>family1@test.nuanban.dev</td></tr><tr><td>老人</td><td>elder1@test.nuanban.dev</td></tr><tr><td>兼容旧文档</td><td>student@test / family@test / elder@test</td></tr></tbody></table>---
+<h4>手工录入（可选）</h4>
+<p>在 <strong>http://localhost:8090/_/</strong> 导入 <code>pb_schema.json</code> 后，也可按下列顺序手工录入。</p>
+<h4>1. 基础字典</h4>
+<table><thead><tr><th>集合</th><th>示例</th></tr></thead><tbody><tr><td><code>school_dict</code></td><td>name=<code>示范大学</code>, enabled=true</td></tr><tr><td><code>organizations</code></td><td>name=<code>暖伴示范养老院</code>, latitude=31.23, longitude=121.47, enabled=true</td></tr><tr><td><code>communities</code></td><td>org=上一步, name=<code>A区</code></td></tr><tr><td><code>service_categories</code></td><td>name=<code>陪护</code></td></tr><tr><td><code>service_items</code></td><td>category=陪护, name=<code>陪伴2小时</code>, price_cents=8000, duration_minutes=120, enabled=true</td></tr></tbody></table><h4>2. 老人档案</h4>
+<p><code>elders</code>: org=养老院, name=<code>张奶奶</code>, latitude=31.2304, longitude=121.4737, enabled=true</p>
+<p>记下 <strong>elder id</strong>（如 <code>abc123</code>）。</p>
+<h4>3. 测试账号（Auth → users）</h4>
+<p>创建 3 个用户（密码统一 <code>nuanban_dev_2025</code>，与 hooks 开发登录一致）：</p>
+<table><thead><tr><th>邮箱</th><th>用途</th></tr></thead><tbody><tr><td>elder@test.nuanban.dev</td><td>老人端</td></tr><tr><td>family@test.nuanban.dev</td><td>家属端</td></tr><tr><td>student@test.nuanban.dev</td><td>学生端</td></tr></tbody></table><h4>4. user_roles</h4>
+<table><thead><tr><th>user</th><th>role</th><th>status</th><th>附加</th></tr></thead><tbody><tr><td>elder@test</td><td>elder</td><td>active</td><td>elder_profile=张奶奶 id</td></tr><tr><td>family@test</td><td>family</td><td>active</td><td>—</td></tr><tr><td>student@test</td><td>student</td><td>active</td><td>display_name=<code>小李</code>, school=示范大学, latitude=31.231, longitude=121.474</td></tr></tbody></table><h4>5. 家属绑定</h4>
+<p><code>family_elder_bindings</code>: family_user=家属用户 id, elder=张奶奶 id, is_primary_payer=true</p>
+<h4>6. 小程序联调</h4>
+<p><code>packages/miniapp/.env</code>:</p>
+<pre><code class="language-env">VITE_API_BASE_URL=http://localhost:8090/api</code></pre>
+<ul><li><strong>微信登录</strong>：hooks 按 <code>code</code> 自动创建 <code>wx_*@nuanban.dev</code> 用户（无角色时需注册页补角色）。</li></ul>
+<ul><li><strong>开发快捷登录</strong>（H5）：登录页「开发账号登录」使用 <code>student@test.nuanban.dev</code> / <code>nuanban_dev_2025</code>。</li></ul>
+<h4>7. 验证流程</h4>
+<p><li>老人端：附近陪护 → 选学生 → 下单 → 订单 <code>pending_accept</code></li><br/><li>学生端：发现页待接单 → 接受 → <code>pending_service</code>（或外出待批）</li><br/><li>家属端：待支付订单 → 模拟支付；外出审批页通过/拒绝</li></p>
+<pre><code class="language-bash">cd ~/Projects/nuanban
+docker compose restart pocketbase
+./scripts/seed-demo.sh</code></pre>
+<div class="page-break"></div>
+<h1>第七部分 后台登录</h1>
+<h4>现象</h4>
+<p>打开 <code>http://localhost:8090/_/#/login</code> 提示 <strong>Invalid login credentials</strong>。</p>
+<h4>最常见原因</h4>
+<p><li><strong>还没创建超级管理员</strong>（第一次不能直接随便登录）</li><br/><li>执行 <code>superuser upsert</code> 时 <strong>少了 <code>--dir=/pb_data</code></strong>（账号写到了错误目录）</li><br/><li>以前用过别的镜像，<code>pb_data</code> 里旧数据和现在 <strong>加密密钥 <code>.env</code> 不一致</strong></li><br/><li>密码里有特殊字符，终端没加引号，实际密码和想的不一样</li></p>
+<hr/>
+<h4>方案一：只重置管理员（保留已有数据）</h4>
+<p>在项目根目录执行：</p>
+<pre><code class="language-bash">cd ~/Projects/nuanban
+chmod +x scripts/pb-reset-admin.sh
+./scripts/pb-reset-admin.sh</code></pre>
+<p>然后用固定账号登录：</p>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>地址</td><td>http://localhost:8090/_/#/login</td></tr><tr><td>邮箱</td><td><code>admin@nuanban.dev</code></td></tr><tr><td>密码</td><td><code>Nuanban2025!</code></td></tr></tbody></table>---
+<h4>方案二：彻底重来（推荐第一次搞不定时用）</h4>
+<p>会清空本地数据库，但最干净：</p>
+<pre><code class="language-bash">cd ~/Projects/nuanban
+chmod +x scripts/pb-fresh-start.sh
+./scripts/pb-fresh-start.sh</code></pre>
+<p>按提示输入 <code>y</code> 确认。</p>
+<p>成功后同样用：</p>
+<ul><li>邮箱：<code>admin@nuanban.dev</code></li></ul>
+<ul><li>密码：<code>Nuanban2025!</code></li></ul>
+<hr/>
+<h4>手动命令（和脚本等价）</h4>
+<pre><code class="language-bash">cd ~/Projects/nuanban
+docker compose exec pocketbase /pb/pocketbase superuser upsert admin@nuanban.dev 'Nuanban2025!' --dir=/pb_data</code></pre>
+<p>注意：</p>
+<ul><li>必须有 <strong><code>--dir=/pb_data</code></strong></li></ul>
+<ul><li>密码建议用 <strong>单引号</strong> 包起来</li></ul>
+<hr/>
+<h4>验证服务正常</h4>
+<pre><code class="language-bash">curl -i http://localhost:8090/api/health --max-redirs 0</code></pre>
+<p>应看到 <strong><code>HTTP/1.1 200</code></strong>（不要出现跳转到 <code>https://localhost:443</code>）。</p>
+<hr/>
+<h4>登录成功后下一步</h4>
+<p><li><strong>Settings → Import collections</strong> → 选 <code>packages/pocketbase/pb_schema.json</code></li><br/><li>按 <code>packages/pocketbase/SEED.md</code> 建演示账号</li></p>
+<div class="page-break"></div>
+<h1>第八部分 API 说明</h1>
+<p>V1 后端为 <strong>PocketBase</strong>，无 <code>/api/v1</code> 前缀。客户端 <code>VITE_API_BASE_URL</code> 示例：<code>https://api.example.com/api</code>。</p>
+<h4>基础 URL</h4>
+<table><thead><tr><th>环境</th><th>Base</th></tr></thead><tbody><tr><td>本地</td><td><code>http://localhost:8090/api</code></td></tr><tr><td>生产</td><td><code>https://&lt;你的域名&gt;/api</code></td></tr></tbody></table><h4>认证</h4>
+<table><thead><tr><th>操作</th><th>方法</th><th>路径</th></tr></thead><tbody><tr><td>注册/登录（邮箱手机）</td><td>POST</td><td><code>/collections/users/records</code> 或 <code>/collections/users/auth-with-password</code></td></tr><tr><td>刷新 Token</td><td>POST</td><td><code>/collections/users/auth-refresh</code></td></tr><tr><td>当前用户</td><td>GET</td><td><code>/collections/users/records/:id</code>（需 Bearer）</td></tr></tbody></table>请求头：
+<pre><code class="language-text">Authorization: Bearer &lt;token&gt;
+X-Active-Role: elder | family | student</code></pre>
+<p>微信 <code>code</code> 换 openid、自定义 JWT 载荷为 <strong>二期 Hooks</strong>；V1 可用邮箱/手机测试账号。</p>
+<h4>集合 REST 约定</h4>
+<p>列表：</p>
+<pre><code class="language-text">GET /collections/&lt;name&gt;/records?page=1&amp;perPage=30&amp;filter=...&amp;sort=-created</code></pre>
+<p>单条：</p>
+<pre><code class="language-text">GET /collections/&lt;name&gt;/records/:id
+POST /collections/&lt;name&gt;/records
+PATCH /collections/&lt;name&gt;/records/:id
+DELETE /collections/&lt;name&gt;/records/:id</code></pre>
+<p><code>filter</code> 使用 PocketBase 表达式，例如：<code>elder_id = "xxx"</code>。</p>
+<h4>业务集合与典型用途</h4>
+<table><thead><tr><th>集合</th><th>老人端</th><th>家属端</th><th>学生端</th><th>Admin</th></tr></thead><tbody><tr><td><code>elders</code></td><td>本人档案</td><td>已绑定老人</td><td>—</td><td>CRUD</td></tr><tr><td><code>service_items</code></td><td>选 SKU</td><td>购服务</td><td>—</td><td>CRUD</td></tr><tr><td><code>orders</code></td><td>下单/列表/确认</td><td>代付/列表</td><td>接单池</td><td>查询/派单</td></tr><tr><td><code>schedules</code></td><td>今日服务</td><td>—</td><td>排班/签到</td><td>派单</td></tr><tr><td><code>outdoor_approvals</code></td><td>—</td><td>审批</td><td>—</td><td>查看</td></tr><tr><td><code>user_roles</code></td><td>—</td><td>—</td><td>资料审核状态</td><td>审核</td></tr><tr><td><code>school_cooperation</code></td><td>—</td><td>—</td><td>合作范围</td><td>CRUD</td></tr><tr><td><code>export_tasks</code></td><td>—</td><td>—</td><td>—</td><td>导出</td></tr></tbody></table>字段定义见 [../packages/pocketbase/COLLECTIONS.md]。
+<h4>与旧 NestJS 路由的对照</h4>
+<p>原 <code>packages/api</code> 按角色划分的 REST（<code>/elder/*</code>、<code>/family/*</code> 等）在 V1 中改为：</p>
+<p><li>客户端按角色调用对应 <strong>集合</strong> + <code>filter</code>；</li><br/><li>跨角色写操作与状态机校验 → <strong>PocketBase Hooks</strong>（二期）。</li></p>
+<table><thead><tr><th>原 Nest 能力</th><th>V1 实现</th></tr></thead><tbody><tr><td><code>GET /elder/caregivers/nearby</code></td><td>查 <code>user_roles</code>（student）+ 距离计算（客户端或 filter）</td></tr><tr><td><code>POST /elder/orders</code></td><td><code>POST /collections/orders/records</code></td></tr><tr><td><code>POST /family/orders/:id/pay</code></td><td>更新 <code>orders.payment_status</code>（支付通道二期）</td></tr><tr><td><code>POST /admin/schedules/assign</code></td><td>Admin 或 API 写 <code>schedules</code></td></tr><tr><td><code>POST /admin/exports</code></td><td><code>POST /collections/export_tasks/records</code></td></tr></tbody></table><h4>实时与文件</h4>
+<ul><li>Realtime：<code>GET /api/realtime</code>（订阅集合变更，可选）</li></ul>
+<ul><li>文件字段：上传后 URL 由 PocketBase 返回，存于 <code>pb_data</code></li></ul>
+<h4>管理端</h4>
+<ul><li>Admin UI：<code>https://&lt;host&gt;/_/</code></li></ul>
+<ul><li>不使用独立 <code>packages/admin-web</code> 的 <code>/admin/*</code> JWT 接口</li></ul>
+<h4>健康检查</h4>
+<pre><code class="language-text">GET /api/health</code></pre>
+<p>Docker Compose healthcheck 使用此端点。</p>
+<div class="page-break"></div>
+<h1>第九部分 登录与多角色</h1>
+<p>&gt; 后端为 PocketBase 时，Token 为 PocketBase <code>users</code> 认证令牌；多角色逻辑仍在应用层。部署与 API 前缀见 [DEPLOY.md]、[API.md]。</p>
+<h4>1. 登录流程（目标态）</h4>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant MP as 小程序/H5
+  participant PB as PocketBase
+  participant WX as 微信
+  MP-&gt;&gt;WX: uni.login() 获取 code
+  MP-&gt;&gt;PB: Hook: code2session（二期）或 V1 密码/测试登录
+  PB-&gt;&gt;MP: { token, record }
+  MP-&gt;&gt;PB: GET user_roles?filter=user_id=...
+  MP-&gt;&gt;MP: 存储 token + roles
+  alt 单角色
+    MP-&gt;&gt;MP: setActiveRole + 跳转首页
+  else 多角色
+    MP-&gt;&gt;MP: 角色选择页
+  end</code></pre>
+<p><strong>V1</strong>：可用 PocketBase <code>auth-with-password</code> 或 Admin 预建用户；微信登录在 Hooks 中实现。</p>
+<h4>2. Token</h4>
+<table><thead><tr><th>项</th><th>说明</th></tr></thead><tbody><tr><td>类型</td><td>PocketBase Auth Token（Bearer）</td></tr><tr><td>请求头</td><td><code>Authorization: Bearer &lt;token&gt;</code></td></tr><tr><td>角色头</td><td><code>X-Active-Role: elder</code>（客户端与 Hooks 校验）</td></tr><tr><td>刷新</td><td><code>POST /collections/users/auth-refresh</code></td></tr><tr><td>过期</td><td>按 PB 集合 Auth 配置；生产建议合理 <code>tokenDuration</code></td></tr></tbody></table><h4>3. 本地存储（uni-app）</h4>
+<table><thead><tr><th>Key</th><th>内容</th></tr></thead><tbody><tr><td><code>access_token</code></td><td>PB token</td></tr><tr><td><code>user</code></td><td><code>{ id, nickname, avatarUrl }</code></td></tr><tr><td><code>roles</code></td><td><code>[{ role, status }]</code>（来自 <code>user_roles</code>）</td></tr><tr><td><code>activeRole</code></td><td><code>elder</code> \</td><td><code>family</code> \</td><td><code>student</code></td></tr></tbody></table><h4>4. 注册与审核</h4>
+<p>写入 <code>users</code> + <code>user_roles</code>：</p>
+<pre><code class="language-json">{
+  "role": "student",
+  "phone": "13800138000",
+  "profile": {
+    "schoolId": "record_id",
+    "studentNo": "2024001",
+    "college": "文学院"
+  }
+}</code></pre>
+<ul><li><code>elder</code>：需 <code>elderPreId</code> 或机构码 + 手机号匹配预建档</li></ul>
+<ul><li><code>family</code>：需 <code>elderBindCode</code> 或扫码绑定</li></ul>
+<ul><li><code>student</code>：提交后 <code>user_roles.status = pending</code>，Admin 审核为 <code>active</code></li></ul>
+<h4>5. 访问控制（V1 / 二期）</h4>
+<table><thead><tr><th>场景</th><th>V1</th><th>二期</th></tr></thead><tbody><tr><td>集合 List/View API 规则</td><td>PB 默认「认证用户」；敏感表 Admin 调规则</td><td>按 <code>user_id</code> / <code>elder_id</code> 细化 filter</td></tr><tr><td>跨角色写订单</td><td>客户端约束 + Admin 人工</td><td>Hooks 校验 <code>X-Active-Role</code></td></tr><tr><td>管理端</td><td>PocketBase Admin 账号</td><td><code>org_admin</code> 角色字段 + 集合权限</td></tr></tbody></table>客户端路由守卫仍按分包检查 <code>activeRole</code>（见 [MINIAPP_ROUTING.md]）。
+<h4>6. 401/403 处理</h4>
+<ul><li>401：清 token → <code>pages/common/login</code></li></ul>
+<ul><li>403 角色不符：提示切换身份 → <code>pages/common/role-select</code></li></ul>
+<div class="page-break"></div>
+<h1>第十部分 小程序路由</h1>
+<h4>1. 页面结构</h4>
+<pre><code class="language-text">主包 pages/common/
+  launch          启动页（解析深链 role/target/id）
+  login           微信登录
+  role-select     多角色时选择
+  register        注册入口（选 elder/family/student）
+  agreement       用户协议
+<p>分包 package-elder/<br/>  home            老人首页<br/>  caregivers/list 找陪护列表<br/>  caregivers/detail 学生资料<br/>  order/create    下单<br/>  order/detail    订单详情<br/>  order/list      我的服务<br/>  settings        设置（大字号）</p>
+<p>分包 package-family/<br/>  home            家属首页<br/>  elder/bind      绑定老人<br/>  package/buy     购服务包<br/>  order/pay       待支付<br/>  order/list      订单与账单<br/>  outdoor/approve 外出审批</p>
+<p>分包 package-student/<br/>  home            学生首页（待接单）<br/>  discover/list   附近老人<br/>  order/request   接单详情<br/>  schedule/list   排班<br/>  schedule/checkin 签到<br/>  schedule/log    服务日志<br/>  income/list     收入<br/>  profile/edit    资料编辑</code></pre></p>
+<h4>2. pages.json 分包示例</h4>
+<p>见 <code>packages/miniapp/src/pages.json</code>。</p>
+<h4>3. 深链参数</h4>
+<table><thead><tr><th>参数</th><th>说明</th><th>示例</th></tr></thead><tbody><tr><td><code>role</code></td><td>elder \</td><td>family \</td><td>student</td><td><code>family</code></td></tr><tr><td><code>target</code></td><td>目标页面 key</td><td><code>order-pay</code></td></tr><tr><td><code>id</code></td><td>业务 ID</td><td>订单 ID</td></tr></tbody></table>启动页 <code>launch</code> 统一处理：
+<pre><code class="language-text">/pages/common/launch?role=family&amp;target=order-pay&amp;id=123
+  → 登录校验 → 切换 activeRole → redirect 家属待支付页</code></pre>
+<h4>4. TabBar 策略</h4>
+<p>不使用微信原生固定 tabBar 配三套，采用 <strong>自定义底部栏组件</strong> <code>&lt;RoleTabBar /&gt;</code>，根据 <code>activeRole</code> 渲染不同 Tab 配置（见 <code>config/tabs.ts</code>）。</p>
+<h4>5. 角色切换</h4>
+<ul><li>存储：<code>uni.setStorageSync('activeRole', 'elder')</code></li></ul>
+<ul><li>全局：<code>pinia store role.ts</code></li></ul>
+<ul><li>入口：各模式「我的」→ 切换身份（仅当 <code>user.roles.length &gt; 1</code>）</li></ul>
+<h4>6. 导航守卫</h4>
+<p><code>utils/nav-guard.ts</code>：访问分包页前检查</p>
+<p><li>已登录（token）</li><br/><li>已激活角色匹配分包前缀</li><br/><li>学生需 <code>audit_status === active</code></li></p>
+<div class="page-break"></div>
+<h1>第十一部分 故障排查</h1>
+<h4><code>npm install</code> 报 EPERM / Operation not permitted</h4>
+<p>若在路径 <code>.../empty-window/nuanban</code> 下无法创建 <code>node_modules</code>，多为 <strong>目录权限或 Cursor 沙箱</strong> 限制。</p>
+<p><strong>建议：</strong></p>
+<p><li>复制到可写目录：<code>cp -R &lt;repo&gt; ~/Projects/nuanban</code></li><br/><li>macOS 清除扩展属性：<code>xattr -cr ~/Projects/nuanban</code></li><br/><li>在系统终端（非 Agent 沙箱）执行安装</li></p>
+<p>根目录 <strong>不要</strong> <code>npm install</code>（无 workspaces）；分别在 <code>packages/miniapp</code> 内安装。</p>
+<h4>PocketBase 无法启动</h4>
+<pre><code class="language-bash">docker compose logs pocketbase
+curl -s http://localhost:8090/api/health</code></pre>
+<ul><li>端口 8090 被占用：修改 <code>docker-compose.yml</code> 端口映射</li></ul>
+<ul><li><code>PB_ENCRYPTION_KEY</code> 变更后旧数据无法解密：恢复备份或使用新 <code>pb_data</code> 目录</li></ul>
+<h4>客户端连不上 API</h4>
+<ul><li><code>packages/miniapp/.env</code> 应为 <code>VITE_API_BASE_URL=http://localhost:8090/api</code>（<strong>无</strong> <code>/v1</code>）</li></ul>
+<ul><li>微信开发者工具：开发阶段可勾选「不校验合法域名」；真机需 HTTPS 备案域名</li></ul>
+<ul><li>H5 跨域：通过 Caddy 同域反代 <code>/api</code>，或 PB 配置 CORS</li></ul>
+<h4>集合 403 / 空数据</h4>
+<ul><li>确认已在 Admin 导入 <code>pb_schema.json</code></li></ul>
+<ul><li>确认请求带 <code>Authorization: Bearer</code></li></ul>
+<ul><li>V1 权限较粗，细粒度规则需 Hooks；测试数据可在 Admin 手工录入</li></ul>
+<h4>小程序</h4>
+<ul><li><strong>推荐 [HBuilderX](https://www.dcloud.io/hbuilderx.html)</strong> 打开 <code>packages/miniapp</code></li></ul>
+<ul><li>CLI：<code>cd packages/miniapp &amp;&amp; npm install &amp;&amp; npm run dev:mp-weixin</code></li></ul>
+<h4>历史栈（NestJS + PostgreSQL）</h4>
+<p>若仍在使用 <code>packages/api</code>，需 <code>DATABASE_URL</code> 并执行 <code>database/schema.sql</code>。<strong>V1 新部署请改用 PocketBase</strong>，见 [DEPLOY.md]。</p>
+<div class="page-break"></div>
+<h1>附录 名词与账号</h1>
+<h3>测试账号（执行 seed-demo 后）</h3>
+<table><thead><tr><th>角色</th><th>邮箱</th><th>密码</th></tr></thead><tbody><tr><td>后台管理员</td><td>admin@nuanban.dev</td><td>Nuanban2025!</td></tr><tr><td>学生</td><td>student1@test.nuanban.dev</td><td>nuanban_dev_2025</td></tr><tr><td>家属</td><td>family1@test.nuanban.dev</td><td>nuanban_dev_2025</td></tr><tr><td>老人</td><td>elder1@test.nuanban.dev</td><td>nuanban_dev_2025</td></tr></tbody></table><h3>H5 开发登录</h3>
+<ul><li>使用登录页 <strong>「开发账号登录（学生）」</strong></li></ul>
+<ul><li><code>.env</code> 中 <code>VITE_API_BASE_URL=/api</code>（走 Vite 代理）</li></ul>
+<ul><li>须先执行 <code>./scripts/seed-demo.sh</code></li></ul>
+<h3>仓库路径</h3>
+<table><thead><tr><th>路径</th><th>说明</th></tr></thead><tbody><tr><td>packages/miniapp</td><td>单小程序（三角色分包）</td></tr><tr><td>packages/pocketbase</td><td>后端数据与 Hooks</td></tr><tr><td>docker-compose.yml</td><td>Docker 部署</td></tr><tr><td>docs/</td><td>分专题文档（本手册来源）</td></tr></tbody></table><div class="page-break"></div>
+
+</body>
+</html>

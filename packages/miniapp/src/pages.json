@@ -1,0 +1,43 @@
+{
+  "pages": [
+    { "path": "pages/common/launch", "style": { "navigationBarTitleText": "暖伴勤工" } },
+    { "path": "pages/common/login", "style": { "navigationBarTitleText": "登录" } },
+    { "path": "pages/common/role-select", "style": { "navigationBarTitleText": "选择身份" } },
+    { "path": "pages/common/register", "style": { "navigationBarTitleText": "注册" } }
+  ],
+  "subPackages": [
+    {
+      "root": "package-elder",
+      "pages": [
+        { "path": "home", "style": { "navigationBarTitleText": "暖伴", "navigationStyle": "custom" } },
+        { "path": "caregivers/list", "style": { "navigationBarTitleText": "找陪护" } },
+        { "path": "caregivers/detail", "style": { "navigationBarTitleText": "陪护资料" } },
+        { "path": "order/create", "style": { "navigationBarTitleText": "预约服务" } },
+        { "path": "order/detail", "style": { "navigationBarTitleText": "订单详情" } },
+        { "path": "order/list", "style": { "navigationBarTitleText": "我的服务" } }
+      ]
+    },
+    {
+      "root": "package-family",
+      "pages": [
+        { "path": "home", "style": { "navigationBarTitleText": "家属端" } },
+        { "path": "order/pay", "style": { "navigationBarTitleText": "待支付" } },
+        { "path": "outdoor/approve", "style": { "navigationBarTitleText": "外出审批" } }
+      ]
+    },
+    {
+      "root": "package-student",
+      "pages": [
+        { "path": "home", "style": { "navigationBarTitleText": "学生端" } },
+        { "path": "discover/list", "style": { "navigationBarTitleText": "附近老人" } },
+        { "path": "order/request", "style": { "navigationBarTitleText": "订单详情" } }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "暖伴勤工",
+    "navigationBarBackgroundColor": "#FFF8F0",
+    "backgroundColor": "#F5F5F5"
+  }
+}

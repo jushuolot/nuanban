@@ -1,0 +1,19 @@
+# 本地开发示例：:80 提供 H5 静态，/api 反代 PocketBase
+# 生产将 :80 改为你的域名，并在 Caddy 中配置 TLS
+
+:80 {
+	handle_path /api/* {
+		reverse_proxy pocketbase:8090
+	}
+
+	# PocketBase Admin Dashboard 路径（/_/）
+	handle_path /_/* {
+		reverse_proxy pocketbase:8090
+	}
+
+	handle {
+		root * /srv/h5
+		try_files {path} /index.html
+		file_server
+	}
+}

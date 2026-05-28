@@ -1,0 +1,1037 @@
+[
+  {
+    "id": "pbc_nuanban_school_dict",
+    "name": "school_dict",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_sd_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "primaryKey": false,
+        "max": 128,
+        "min": 1,
+        "pattern": ""
+      },
+      {
+        "id": "fld_sd_sort",
+        "name": "sort_order",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "min": 0,
+        "max": null,
+        "onlyInt": true
+      },
+      {
+        "id": "fld_sd_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_organizations",
+    "name": "organizations",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_org_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "max": 256
+      },
+      {
+        "id": "fld_org_code",
+        "name": "code",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 64
+      },
+      {
+        "id": "fld_org_address",
+        "name": "address",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 512
+      },
+      {
+        "id": "fld_org_lat",
+        "name": "latitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_org_lng",
+        "name": "longitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_org_radius",
+        "name": "service_radius_km",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_org_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_communities",
+    "name": "communities",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_com_org",
+        "name": "org",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_organizations",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_com_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "max": 256
+      },
+      {
+        "id": "fld_com_lat",
+        "name": "latitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_com_lng",
+        "name": "longitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_com_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_elders",
+    "name": "elders",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_el_org",
+        "name": "org",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_organizations",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_el_community",
+        "name": "community",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_communities",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_el_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "max": 64
+      },
+      {
+        "id": "fld_el_phone",
+        "name": "phone",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 20
+      },
+      {
+        "id": "fld_el_lat",
+        "name": "latitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_el_lng",
+        "name": "longitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_el_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_user_roles",
+    "name": "user_roles",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id = user",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_ur_user",
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": true,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ur_role",
+        "name": "role",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["elder", "family", "student", "org_admin", "platform_admin"]
+      },
+      {
+        "id": "fld_ur_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["pending", "active", "rejected", "disabled"]
+      },
+      {
+        "id": "fld_ur_school",
+        "name": "school",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_school_dict",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ur_elder",
+        "name": "elder_profile",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_elders",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ur_display",
+        "name": "display_name",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 64
+      },
+      {
+        "id": "fld_ur_lat",
+        "name": "latitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_ur_lng",
+        "name": "longitude",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_ur_org",
+        "name": "org",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_organizations",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_service_categories",
+    "name": "service_categories",
+    "type": "base",
+    "system": false,
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_sc_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "max": 64
+      },
+      {
+        "id": "fld_sc_sort",
+        "name": "sort_order",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "onlyInt": true
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_service_items",
+    "name": "service_items",
+    "type": "base",
+    "system": false,
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_si_category",
+        "name": "category",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_service_categories",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_si_name",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": true,
+        "system": false,
+        "hidden": false,
+        "max": 128
+      },
+      {
+        "id": "fld_si_price",
+        "name": "price_cents",
+        "type": "number",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "onlyInt": true
+      },
+      {
+        "id": "fld_si_duration",
+        "name": "duration_minutes",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "onlyInt": true
+      },
+      {
+        "id": "fld_si_outdoor",
+        "name": "requires_outdoor_approval",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_si_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_orders",
+    "name": "orders",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_ord_elder",
+        "name": "elder",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_elders",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ord_item",
+        "name": "service_item",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_service_items",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ord_student",
+        "name": "student_user",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ord_source",
+        "name": "source",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["elder_self", "family", "admin_assign", "student_apply"]
+      },
+      {
+        "id": "fld_ord_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": [
+          "draft",
+          "pending_payment",
+          "pending_accept",
+          "outdoor_pending",
+          "pending_service",
+          "in_service",
+          "pending_confirm",
+          "completed",
+          "cancelled",
+          "refunding"
+        ]
+      },
+      {
+        "id": "fld_ord_payment",
+        "name": "payment_status",
+        "type": "select",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["unpaid", "paid", "refunding", "refunded"]
+      },
+      {
+        "id": "fld_ord_amount",
+        "name": "amount_cents",
+        "type": "number",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "onlyInt": true
+      },
+      {
+        "id": "fld_ord_scheduled",
+        "name": "scheduled_at",
+        "type": "date",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_ord_created_by",
+        "name": "created_by",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ord_family",
+        "name": "family_user",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_ord_reject",
+        "name": "reject_reason",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 256
+      },
+      {
+        "id": "fld_ord_paid_at",
+        "name": "paid_at",
+        "type": "date",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_family_elder",
+    "name": "family_elder_bindings",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_fe_family",
+        "name": "family_user",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": true,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_fe_elder",
+        "name": "elder",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_elders",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_fe_relation",
+        "name": "relation_label",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 32
+      },
+      {
+        "id": "fld_fe_primary",
+        "name": "is_primary_payer",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_schedules",
+    "name": "schedules",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_sch_order",
+        "name": "order",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_orders",
+        "cascadeDelete": true,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sch_elder",
+        "name": "elder",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_elders",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sch_student",
+        "name": "student_user",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sch_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": [
+          "pending_service",
+          "in_service",
+          "pending_confirm",
+          "completed",
+          "cancelled"
+        ]
+      },
+      {
+        "id": "fld_sch_start",
+        "name": "scheduled_start",
+        "type": "date",
+        "required": false,
+        "system": false,
+        "hidden": false
+      },
+      {
+        "id": "fld_sch_end",
+        "name": "scheduled_end",
+        "type": "date",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_outdoor",
+    "name": "outdoor_approvals",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_out_order",
+        "name": "order",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_orders",
+        "cascadeDelete": true,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_out_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["pending_family", "pending_org", "approved", "rejected"]
+      },
+      {
+        "id": "fld_out_family",
+        "name": "family_user",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_out_reason",
+        "name": "rejected_reason",
+        "type": "text",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "max": 256
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_settlements",
+    "name": "settlements",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_set_order",
+        "name": "order",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_orders",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_set_student",
+        "name": "student_user",
+        "type": "relation",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "minSelect": 0,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_set_amount",
+        "name": "amount_cents",
+        "type": "number",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "onlyInt": true
+      },
+      {
+        "id": "fld_set_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["pending", "processing", "paid", "failed"]
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_sde",
+    "name": "school_designated_elder",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_sde_school",
+        "name": "school",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_school_dict",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sde_org",
+        "name": "org",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_organizations",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sde_elder",
+        "name": "elder",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_elders",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_sde_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_school_coop",
+    "name": "school_cooperation",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_coop_school",
+        "name": "school",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_school_dict",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_coop_org",
+        "name": "org",
+        "type": "relation",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "collectionId": "pbc_nuanban_organizations",
+        "cascadeDelete": false,
+        "minSelect": 1,
+        "maxSelect": 1
+      },
+      {
+        "id": "fld_coop_enabled",
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "system": false,
+        "hidden": false
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  },
+  {
+    "id": "pbc_nuanban_export_tasks",
+    "name": "export_tasks",
+    "type": "base",
+    "system": false,
+    "listRule": "@request.auth.id != ''",
+    "viewRule": "@request.auth.id != ''",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.id != ''",
+    "deleteRule": null,
+    "fields": [
+      {
+        "id": "fld_exp_type",
+        "name": "export_type",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["orders", "settlements", "student_hours"]
+      },
+      {
+        "id": "fld_exp_status",
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["pending", "processing", "done", "failed"]
+      },
+      {
+        "id": "fld_exp_file",
+        "name": "file",
+        "type": "file",
+        "required": false,
+        "system": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "maxSize": 52428800,
+        "mimeTypes": ["text/csv", "application/vnd.ms-excel"]
+      }
+    ],
+    "indexes": [],
+    "options": {}
+  }
+]
