@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import RoleTabBar from '../../components/RoleTabBar.vue';
+import RoleTabBar from '../components/RoleTabBar.vue';
 import { onShow } from '@dcloudio/uni-app';
 import { guardPackageRoute } from '../../utils/nav-guard';
 

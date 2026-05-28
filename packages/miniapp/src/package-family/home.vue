@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import RoleTabBar from '../../components/RoleTabBar.vue';
+import RoleTabBar from '../components/RoleTabBar.vue';
 
 function goPay() {
   uni.navigateTo({ url: '/package-family/order/pay' });

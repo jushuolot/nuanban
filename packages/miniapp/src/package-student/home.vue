@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { ref, onShow } from 'vue';
-import RoleTabBar from '../../components/RoleTabBar.vue';
+import RoleTabBar from '../components/RoleTabBar.vue';
 import { request } from '../../utils/request';
 
 const pending = ref(0);
