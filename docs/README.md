@@ -4,6 +4,7 @@
 
 | 文档 | 说明 |
 |------|------|
+| **[LOCAL_TEST.md](./LOCAL_TEST.md)** | **本地 / GitHub 克隆联调** |
 | **[PRODUCT.md](./PRODUCT.md)** | **产品资料主文档**：定位、规则、V1 实现状态、二期路线 |
 | [API.md](./API.md) | `/api/nuanban/*` 自定义接口 + PB REST |
 | [LOGIN_STATE.md](./LOGIN_STATE.md) | 登录、多角色、开发账号 |

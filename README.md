@@ -12,6 +12,23 @@
 
 > 仓库中的 `packages/api`、`packages/admin-web`、`database/` 为历史参考，新环境请按极简栈部署。
 
+## 本地测试 / GitHub 克隆测试
+
+- **仓库**：https://github.com/jushuolot/nuanban  
+- **推荐本地路径**：`~/Downloads/cursor/nuanban_github`  
+- **详细步骤**：[docs/LOCAL_TEST.md](docs/LOCAL_TEST.md)
+
+```bash
+git clone https://github.com/jushuolot/nuanban.git
+cd nuanban
+chmod +x scripts/*.sh
+./scripts/dev-test.sh          # 后端 + 演示数据
+
+# 新开终端
+cd packages/miniapp && cp .env.example .env && npm install && npm run dev:h5
+# 浏览器 http://localhost:5174 →「开发账号登录（学生）」
+```
+
 ## 快速开始
 
 ### 1. 启动后端
