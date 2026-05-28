@@ -6,7 +6,12 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 echo "==> 1/3 启动 PocketBase (docker compose)"
-docker compose up -d pocketbase
+if docker ps -a --format '{{.Names}}' | grep -qx 'nuanban-pocketbase'; then
+  docker start nuanban-pocketbase 2>/dev/null || true
+  docker compose up -d pocketbase 2>/dev/null || echo "    使用已有容器 nuanban-pocketbase"
+else
+  docker compose up -d pocketbase
+fi
 
 echo "==> 2/3 等待 API 就绪"
 BASE="${NUANBAN_API:-http://localhost:8090}"

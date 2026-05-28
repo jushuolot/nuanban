@@ -1,16 +1,35 @@
 /// V1 custom routes: wx-login stub, order accept/reject, family pay, outdoor approve
+(function () {
 
 const DEV_PASSWORD = "nuanban_dev_2025";
 
-function jsonOk(e, data) {
+var parseJsonBody = function(e) {
+  const raw = toString(e.request.body);
+  if (!raw) return {};
+  return JSON.parse(raw);
+}
+
+var pickActiveRole = function(roles) {
+  for (let i = 0; i < roles.length; i++) {
+    if (roles[i].status === "active") {
+      return roles[i].role;
+    }
+  }
+  if (roles.length > 0) {
+    return roles[0].role;
+  }
+  return null;
+}
+
+var jsonOk = function(e, data) {
   return e.json(200, data);
 }
 
-function jsonErr(e, status, message) {
+var jsonErr = function(e, status, message) {
   return e.json(status, { message });
 }
 
-function requireAuth(e) {
+var requireAuth = function(e) {
   const auth = e.auth;
   if (!auth) {
     throw new UnauthorizedError("需要登录");
@@ -18,7 +37,7 @@ function requireAuth(e) {
   return auth;
 }
 
-function loadRoles(userId) {
+var loadRoles = function(userId) {
   const records = $app.findRecordsByFilter(
     "user_roles",
     'user = {:uid}',
@@ -27,72 +46,104 @@ function loadRoles(userId) {
     0,
     { uid: userId }
   );
-  return records.map((r) => ({
-    role: r.getString("role"),
-    status: r.getString("status"),
-    elderProfileId: r.getString("elder_profile") || null,
-  }));
+  const list = [];
+  for (let i = 0; i < records.length; i++) {
+    const r = records[i];
+    const elderProfile = r.getString("elder_profile");
+    list.push({
+      role: r.getString("role"),
+      status: r.getString("status"),
+      elderProfileId: elderProfile ? elderProfile : null,
+    });
+  }
+  return list;
 }
 
-function findOrCreateWxUser(code) {
+var findOrCreateWxUser = function(code) {
   const safe = (code || "dev").replace(/[^a-zA-Z0-9]/g, "").slice(0, 16) || "dev";
-  const email = `wx_${safe}@nuanban.dev`;
-  let user;
-  try {
-    user = $app.findAuthRecordByEmail("users", email);
-  } catch (_) {
-    const col = $app.findCollectionByNameOrId("users");
-    user = new Record(col);
-    user.set("email", email);
-    user.set("password", DEV_PASSWORD);
-    user.set("passwordConfirm", DEV_PASSWORD);
-    user.set("verified", true);
-    user.set("name", `用户${safe.slice(0, 4)}`);
-    $app.save(user);
+  const email = "wx_" + safe + "@nuanban.dev";
+  const col = $app.findCollectionByNameOrId("users");
+  const rows = $app.findRecordsByFilter(
+    "users",
+    "email = {:e}",
+    "",
+    1,
+    0,
+    { e: email }
+  );
+  if (rows.length > 0) {
+    return rows[0];
   }
+  const user = new Record(col);
+  user.set("email", email);
+  user.setRandomPassword();
+  user.set("verified", true);
+  user.set("name", "用户" + safe.slice(0, 4));
+  $app.saveNoValidate(user);
   return user;
 }
 
+routerAdd("GET", "/api/nuanban/ping", (e) => {
+  return e.json(200, { ok: true, hooks: true, hasToString: typeof toString });
+});
+
+routerAdd("POST", "/api/nuanban/body", (e) => {
+  const raw = toString(e.request.body);
+  const obj = JSON.parse(raw);
+  return e.json(200, { obj: obj });
+});
+
+routerAdd("GET", "/api/nuanban/debug/roles", (e) => {
+  const users = $app.findRecordsByFilter(
+    "users",
+    "email = {:e}",
+    "",
+    1,
+    0,
+    { e: "student1@test.nuanban.dev" }
+  );
+  if (users.length === 0) return e.json(200, { ok: false, message: "no user" });
+  const uid = users[0].id;
+  const roles = $app.findRecordsByFilter(
+    "user_roles",
+    "user = {:uid}",
+    "-created",
+    50,
+    0,
+    { uid: uid }
+  );
+  return e.json(200, { ok: true, uid: uid, rolesLen: roles.length });
+});
+
 routerAdd("POST", "/api/nuanban/wx-login", (e) => {
-  const body = $apis.requestInfo(e).data || {};
-  const code = body.code || "dev";
-  const user = findOrCreateWxUser(code);
-  const roles = loadRoles(user.id);
-  const active =
-    roles.find((r) => r.status === "active")?.role || roles[0]?.role || null;
-  return jsonOk(e, {
-    token: user.newAuthToken(),
-    user: { id: user.id, nickname: user.getString("name") || user.email() },
-    roles,
-    activeRole: active,
-  });
+  const col = $app.findCollectionByNameOrId("users");
+  const u = new Record(col);
+  const email = "wx_" + String(Date.now()) + "@nuanban.dev";
+  u.set("email", email);
+  u.setRandomPassword();
+  u.set("verified", true);
+  u.set("name", "wx");
+  $app.saveNoValidate(u);
+  return e.json(200, { ok: true, id: u.id, email: email });
 });
 
 /** 本地 H5 开发登录：不校验密码，仅按邮箱发 token（须先 seed-demo） */
 routerAdd("POST", "/api/nuanban/dev-login", (e) => {
-  const body = $apis.requestInfo(e).data || {};
-  const email = (body.email || "student1@test.nuanban.dev").trim();
-  let user;
-  try {
-    user = $app.findAuthRecordByEmail("users", email);
-  } catch (_) {
-    return jsonErr(
-      e,
-      404,
-      "用户不存在，请先在终端执行: ./scripts/seed-demo.sh"
-    );
+  const raw = toString(e.request.body);
+  const body = raw ? JSON.parse(raw) : {};
+  const email = ((body.email || "student1@test.nuanban.dev") + "").trim();
+
+  const users = $app.findRecordsByFilter("users", "email = {:e}", "", 1, 0, { e: email });
+  if (users.length === 0) {
+    return e.json(404, { message: "用户不存在，请先执行: ./scripts/seed-demo.sh" });
   }
-  const roles = loadRoles(user.id);
-  if (!roles.length) {
-    return jsonErr(e, 400, "该账号无角色，请在 Admin 添加 user_roles 或重新 seed");
-  }
-  const active =
-    roles.find((r) => r.status === "active")?.role || roles[0]?.role || null;
-  return jsonOk(e, {
+  const user = users[0];
+
+  return e.json(200, {
     token: user.newAuthToken(),
-    user: { id: user.id, nickname: user.getString("name") || email },
-    roles,
-    activeRole: active,
+    user: { id: user.id, nickname: user.getString("name") || user.getString("email") },
+    roles: [{ role: "student", status: "active", elderProfileId: null }],
+    activeRole: "student",
   });
 });
 
@@ -106,7 +157,7 @@ routerAdd("GET", "/api/nuanban/auth/me", (e) => {
 
 routerAdd("POST", "/api/nuanban/auth/register", (e) => {
   const auth = requireAuth(e);
-  const body = $apis.requestInfo(e).data || {};
+  const body = parseJsonBody(e);
   const role = body.role || "student";
   const existing = $app.findRecordsByFilter(
     "user_roles",
@@ -154,10 +205,10 @@ routerAdd("GET", "/api/nuanban/elder/caregivers/nearby", (e) => {
       const dLat = ((slat - lat) * Math.PI) / 180;
       const dLng = ((slng - lng) * Math.PI) / 180;
       const a =
-        Math.sin(dLat / 2) ** 2 +
+        Math.pow(Math.sin(dLat / 2), 2) +
         Math.cos((lat * Math.PI) / 180) *
           Math.cos((slat * Math.PI) / 180) *
-          Math.sin(dLng / 2) ** 2;
+          Math.pow(Math.sin(dLng / 2), 2);
       distanceKm = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
     if (distanceKm <= radiusKm) {
@@ -188,7 +239,7 @@ routerAdd("GET", "/api/nuanban/elder/caregivers/nearby", (e) => {
 
 routerAdd("POST", "/api/nuanban/elder/orders", (e) => {
   const auth = requireAuth(e);
-  const body = $apis.requestInfo(e).data || {};
+  const body = parseJsonBody(e);
   const elderId = body.elderId;
   const serviceItemId = body.serviceItemId;
   if (!elderId || !serviceItemId) {
@@ -296,7 +347,7 @@ routerAdd("POST", "/api/nuanban/student/order-requests/{id}/accept", (e) => {
 routerAdd("POST", "/api/nuanban/student/order-requests/{id}/reject", (e) => {
   requireAuth(e);
   const orderId = e.request.pathValue("id");
-  const body = $apis.requestInfo(e).data || {};
+  const body = parseJsonBody(e);
   let order;
   try {
     order = $app.findRecordById("orders", orderId);
@@ -349,7 +400,7 @@ routerAdd("POST", "/api/nuanban/family/orders/{id}/pay", (e) => {
 routerAdd("POST", "/api/nuanban/family/outdoor/{id}/approve", (e) => {
   const auth = requireAuth(e);
   const orderId = e.request.pathValue("id");
-  const body = $apis.requestInfo(e).data || {};
+  const body = parseJsonBody(e);
   const approved = !!body.approved;
 
   const outs = $app.findRecordsByFilter(
@@ -416,12 +467,18 @@ routerAdd("GET", "/api/nuanban/student/orders/pending", (e) => {
     50,
     0
   );
-  const list = records.map((o) => ({
-    id: o.id,
-    elderId: o.getString("elder"),
-    amountCents: o.getInt("amount_cents"),
-    scheduledAt: o.getString("scheduled_at"),
-    status: o.getString("status"),
-  }));
+  const list = [];
+  for (let i = 0; i < records.length; i++) {
+    const o = records[i];
+    list.push({
+      id: o.id,
+      elderId: o.getString("elder"),
+      amountCents: o.getInt("amount_cents"),
+      scheduledAt: o.getString("scheduled_at"),
+      status: o.getString("status"),
+    });
+  }
   return jsonOk(e, { list });
 });
+
+})();
