@@ -17,7 +17,7 @@ const pending = ref(0);
 onShow(async () => {
   try {
     const res = await request<{ list: unknown[] }>({
-      url: '/student/order-requests',
+      url: '/nuanban/student/orders/pending',
       method: 'GET',
     });
     pending.value = res.list?.length ?? 0;

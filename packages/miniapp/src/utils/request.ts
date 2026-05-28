@@ -27,6 +27,7 @@ export function request<T>(options: UniApp.RequestOptions): Promise<T> {
     uni.request({
       ...options,
       url,
+      timeout: 15000,
       header: {
         'Content-Type': 'application/json',
         ...(options.header || {}),
